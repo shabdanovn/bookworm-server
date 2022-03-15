@@ -3,10 +3,22 @@ import {SequelizeModule} from "@nestjs/sequelize";
 import { UsersModule } from './users/users.module';
 import {ConfigModule} from "@nestjs/config";
 import {User} from "./users/users.model";
+import { RolesModule } from './roles/roles.module';
+import {Role} from "./roles/roles.model";
+import {UserRoles} from "./roles/user-roles.model";
+import { AuthModule } from './auth/auth.module';
+import { BooksModule } from './books/books.module';
+import {Book} from "./books/books.model";
+import { FilesModule } from './files/files.module';
+import {ServeStaticModule} from "@nestjs/serve-static";
+import * as path from 'path'
 
 @Module({
     controllers:[],
     imports: [
+        ServeStaticModule.forRoot({
+            rootPath: path.resolve(__dirname, 'static'),
+        }),
         ConfigModule.forRoot({
             envFilePath: `.${process.env.NODE_ENV}.env`
         }),
@@ -17,10 +29,14 @@ import {User} from "./users/users.model";
             username: process.env.POSTGRES_USERNAME,
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DB,
-            models: [User],
+            models: [User, Role, UserRoles, Book],
             autoLoadModels: true
         }),
         UsersModule,
+        RolesModule,
+        AuthModule,
+        BooksModule,
+        FilesModule,
     ]
 })
 export class AppModule {}

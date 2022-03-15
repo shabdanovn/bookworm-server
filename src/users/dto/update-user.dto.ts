@@ -1,16 +1,15 @@
 import {ApiProperty} from "@nestjs/swagger";
-import {IsEmail, IsNumber, IsString, Length} from "class-validator";
+import {IsEmail, IsNumber, IsString} from "class-validator";
 
-export class CreateUserDto{
+export class UpdateUserDto{
+    @ApiProperty({example: '1', description: 'ID of a user'})
+    @IsNumber({}, {message: 'Id should be a number'})
+    id:number
+
     @ApiProperty({example: 'densmith@gmail.com', description: 'Email of a user'})
     @IsString({message: "Email should be a string"})
     @IsEmail({}, {message: "Invalid email"})
     email: string
-
-    @ApiProperty({example: '********', description: 'Password of a user'})
-    @IsString({message: "Password should be a string"})
-    @Length(8, 16, {message: "Password syntax is incorrect"})
-    password: string
 
     @ApiProperty({example: 'densmith', description: 'Username of a user'})
     @IsString({message: "Username should be a string"})
@@ -27,4 +26,7 @@ export class CreateUserDto{
     @ApiProperty({example: '+996700200222', description: 'Phone of a user'})
     @IsString({message: "Phone should be a string"})
     phone: string
+
+    @ApiProperty({example: 'img', description: 'Image of a user'})
+    img: string
 }

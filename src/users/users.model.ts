@@ -1,5 +1,8 @@
-import {Column, DataType, Table, Model} from "sequelize-typescript";
+import {Column, DataType, Table, Model, BelongsToMany, HasMany} from "sequelize-typescript";
 import {ApiProperty} from "@nestjs/swagger";
+import {Role} from "../roles/roles.model";
+import {UserRoles} from "../roles/user-roles.model";
+import {Book} from "../books/books.model";
 
 interface UserCreateAttrs{
     email: string
@@ -37,7 +40,7 @@ export class User extends Model<User, UserCreateAttrs>{
     password: string
 
     @ApiProperty({example: '+996700200222', description: 'Phone of a user'})
-    @Column({type:DataType.STRING, allowNull: false, unique: true})
+    @Column({type:DataType.STRING, allowNull: false})
     phone: string
 
     @ApiProperty({example: 'true', description: 'Banned or not'})
@@ -52,4 +55,9 @@ export class User extends Model<User, UserCreateAttrs>{
     @Column({type:DataType.INTEGER, allowNull: false})
     cityId: number
 
+    @BelongsToMany(()=> Role, ()=>UserRoles)
+    roles: Role[]
+
+    @HasMany(() => Book)
+    books: Book[]
 }
