@@ -8,6 +8,7 @@ import {UserRoles} from "../roles/user-roles.model";
 import {RolesModule} from "../roles/roles.module";
 import {AuthModule} from "../auth/auth.module";
 import {Book} from "../books/books.model";
+import {FilesModule} from "../files/files.module";
 
 @Module({
   controllers: [UsersController],
@@ -15,7 +16,8 @@ import {Book} from "../books/books.model";
   imports: [
       SequelizeModule.forFeature([User, Role, UserRoles, Book]),
       RolesModule,
-      forwardRef(() => AuthModule)
+      forwardRef(() => AuthModule),
+      FilesModule
   ],
     exports:[UsersService]
 })

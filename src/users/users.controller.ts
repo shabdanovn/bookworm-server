@@ -1,4 +1,15 @@
-import {Body, Controller, Delete, Get, Param, Post, Put, UseGuards} from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    UploadedFile,
+    UseGuards,
+    UseInterceptors
+} from '@nestjs/common';
 import {UsersService} from "./users.service";
 import {CreateUserDto} from "./dto/create-user.dto";
 import {ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
@@ -7,6 +18,7 @@ import {UpdateUserDto} from "./dto/update-user.dto";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {AddRoleDto} from "./dto/add-role.dto";
 import {BanUserDto} from "./dto/ban-user.dto";
+import {FileInterceptor} from "@nestjs/platform-express";
 
 @ApiTags('Users')
 @Controller('users')
@@ -49,9 +61,19 @@ export class UsersController {
     @ApiOperation({summary: 'update a user'})
     @ApiResponse({status: 200, type: User})
     @UseGuards(JwtAuthGuard)
-    @Put()
+    @Put('/without-image')
     updateUser(@Body() userDto: UpdateUserDto){
         return this.userService.updateUser(userDto)
+    }
+
+    @ApiOperation({summary: 'update a user'})
+    @ApiResponse({status: 200, type: User})
+    @UseGuards(JwtAuthGuard)
+    @Put('/with-image')
+    @UseInterceptors(FileInterceptor('img'))
+    updateUserWithImage(@Body() userDto: UpdateUserDto,
+                        @UploadedFile() img:any){
+        return this.userService.updateUserWithImage(userDto, img)
     }
 
     @ApiOperation({summary: 'Attach a role to user'})

@@ -32,7 +32,7 @@ export class Book extends Model<Book, BookCreationAttrs>{
     notes: string
 
     @ApiProperty({example: 'Image', description: 'Image of a book'})
-    @Column({type:DataType.STRING, allowNull: false})
+    @Column({type:DataType.STRING, allowNull: true})
     img: string
 
     @ApiProperty({example: '250 som', description: 'Cost of a book'})

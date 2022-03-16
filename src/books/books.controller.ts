@@ -1,9 +1,10 @@
-import {Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Put, UploadedFile, UseInterceptors} from '@nestjs/common';
 import {BooksService} from "./books.service";
 import {CreateBookDto} from "./dto/create-book.dto";
 import {UpdateBookDto} from "./dto/update-book.dto";
-import {ApiTags} from "@nestjs/swagger";
+import {ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {FileInterceptor} from "@nestjs/platform-express";
+import {Book} from "./books.model";
 
 @ApiTags('Books')
 @Controller('books')
@@ -11,6 +12,8 @@ export class BooksController {
 
     constructor(private bookService: BooksService) {}
 
+    @ApiOperation({summary: 'create a new book post'})
+    @ApiResponse({status: 200, type: Book})
     @Post()
     @UseInterceptors(FileInterceptor('img'))
     createBook(@Body() dto: CreateBookDto,
@@ -18,25 +21,40 @@ export class BooksController {
         return this.bookService.createBook(dto, img)
     }
 
-    @Get('/:id')
+    @ApiOperation({summary: 'get a book post'})
+    @ApiResponse({status: 200, type: Book})
+    @Get(':id')
     getOneBook(@Param('id') id: string){
         return this.bookService.getOneBook(+id)
     }
 
+    @ApiOperation({summary: 'get books'})
+    @ApiResponse({status: 200, type: [Book]})
     @Get()
     getAllBooks(){
         return this.bookService.getAllBooks()
     }
 
-    @Delete('/:id')
+    @ApiOperation({summary: 'delete a book post'})
+    @ApiResponse({status: 200, type: Book})
+    @Delete(':id')
     deleteBook(@Param('id') id: string){
         return this.bookService.deleteBook(+id)
     }
 
-    @Put()
+    @ApiOperation({summary: 'update a book post'})
+    @ApiResponse({status: 200, type: Book})
+    @Put('/without-image')
+    updateBook(@Body() dto: UpdateBookDto){
+        return this.bookService.updateBook(dto)
+    }
+
+    @ApiOperation({summary: 'update a book post with image'})
+    @ApiResponse({status: 200, type: Book})
+    @Put('/with-image')
     @UseInterceptors(FileInterceptor('img'))
-    updateBook(@Body() dto: UpdateBookDto,
+    updateBookWithImage(@Body() dto: UpdateBookDto,
                @UploadedFile() img){
-        return this.bookService.updateBook(dto, img)
+        return this.bookService.updateBookWithImage(dto, img)
     }
 }

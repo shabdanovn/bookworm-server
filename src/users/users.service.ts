@@ -6,15 +6,17 @@ import {UpdateUserDto} from "./dto/update-user.dto";
 import {RolesService} from "../roles/roles.service";
 import {BanUserDto} from "./dto/ban-user.dto";
 import {AddRoleDto} from "./dto/add-role.dto";
+import {FilesService} from "../files/files.service";
 
 @Injectable()
 export class UsersService {
     constructor(@InjectModel(User) private userRepo: typeof User,
-                private roleService: RolesService) {}
+                private roleService: RolesService,
+                private filesService: FilesService) {}
 
     async createUser(dto: CreateUserDto) {
         const user = await this.userRepo.create(dto)
-        const role = await this.roleService.getRoleByName('User')
+        const role = await this.roleService.getRoleByName('user')
         await user.$set('roles', [role.id])
         user.roles = [role]
         return user
@@ -34,8 +36,12 @@ export class UsersService {
     }
 
     async updateUser(dto: UpdateUserDto){
-        const user = await this.userRepo.update(dto, {where: {id:dto.id}})
-        return user
+        return await this.userRepo.update(dto, {where: {id:dto.id}})
+    }
+
+    async updateUserWithImage(dto: UpdateUserDto, img:any){
+        let filename = await this.filesService.createFile(img)
+        return await this.userRepo.update({...dto, img: filename}, {where: {id:dto.id}})
     }
 
     async getUserByEmail(email: string){

@@ -29,7 +29,11 @@ export class BooksService {
         return await this.bookRepo.destroy({where: {id}})
     }
 
-    async updateBook(dto: UpdateBookDto, img:any){
+    async updateBook(dto: UpdateBookDto){
+        return await this.bookRepo.update(dto, {where: {id:dto.id}})
+    }
+
+    async updateBookWithImage(dto: UpdateBookDto, img:any){
         const fileName = await this.filesService.createFile(img)
         return await this.bookRepo.update({...dto, img:fileName}, {where: {id: dto.id}})
     }
