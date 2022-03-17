@@ -4,6 +4,7 @@ import {UpdateBookDto} from "./dto/update-book.dto";
 import {InjectModel} from "@nestjs/sequelize";
 import {Book} from "./books.model";
 import {FilesService} from "../files/files.service";
+import {Op} from "sequelize";
 
 @Injectable()
 export class BooksService {
@@ -23,6 +24,18 @@ export class BooksService {
 
     async getAllBooks(){
         return await this.bookRepo.findAll()
+    }
+
+    async getSearchedBooks(word:string){
+        word = word.toLowerCase()
+        let string = word.split('')[0].toUpperCase()
+        word = string+word.substring(1)
+        return await this.bookRepo.findAll({where:{
+            [Op.or]: [
+                {title: {[Op.substring]: word}},
+                {author: {[Op.substring]: word}}
+            ]
+        }})
     }
 
     async deleteBook(id: number){

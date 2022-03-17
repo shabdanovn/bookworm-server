@@ -35,6 +35,13 @@ export class BooksController {
         return this.bookService.getAllBooks()
     }
 
+    @ApiOperation({summary: 'get searched books'})
+    @ApiResponse({status: 200, type: [Book]})
+    @Get('/search/:word')
+    getSearchedBooks(@Param('word') word:string){
+        return this.bookService.getSearchedBooks(word)
+    }
+
     @ApiOperation({summary: 'delete a book post'})
     @ApiResponse({status: 200, type: Book})
     @Delete(':id')
