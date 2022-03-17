@@ -1,10 +1,23 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post, Put, UploadedFile, UseInterceptors} from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    UploadedFile,
+    UseGuards,
+    UseInterceptors
+} from '@nestjs/common';
 import {BooksService} from "./books.service";
 import {CreateBookDto} from "./dto/create-book.dto";
 import {UpdateBookDto} from "./dto/update-book.dto";
 import {ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {FileInterceptor} from "@nestjs/platform-express";
 import {Book} from "./books.model";
+import {JwtAuthGuard} from "../auth/jwt-auth.guard";
+import {AddGenreDto} from "./dto/add-genre.dto";
 
 @ApiTags('Books')
 @Controller('books')
@@ -14,6 +27,7 @@ export class BooksController {
 
     @ApiOperation({summary: 'create a new book post'})
     @ApiResponse({status: 200, type: Book})
+    @UseGuards(JwtAuthGuard)
     @Post()
     @UseInterceptors(FileInterceptor('img'))
     createBook(@Body() dto: CreateBookDto,
@@ -44,6 +58,7 @@ export class BooksController {
 
     @ApiOperation({summary: 'delete a book post'})
     @ApiResponse({status: 200, type: Book})
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     deleteBook(@Param('id') id: string){
         return this.bookService.deleteBook(+id)
@@ -51,6 +66,7 @@ export class BooksController {
 
     @ApiOperation({summary: 'update a book post'})
     @ApiResponse({status: 200, type: Book})
+    @UseGuards(JwtAuthGuard)
     @Put('/without-image')
     updateBook(@Body() dto: UpdateBookDto){
         return this.bookService.updateBook(dto)
@@ -58,10 +74,19 @@ export class BooksController {
 
     @ApiOperation({summary: 'update a book post with image'})
     @ApiResponse({status: 200, type: Book})
+    @UseGuards(JwtAuthGuard)
     @Put('/with-image')
     @UseInterceptors(FileInterceptor('img'))
     updateBookWithImage(@Body() dto: UpdateBookDto,
                @UploadedFile() img){
         return this.bookService.updateBookWithImage(dto, img)
+    }
+
+    @ApiOperation({summary: 'Attach a genre to user'})
+    @ApiResponse({status: 200})
+    @UseGuards(JwtAuthGuard)
+    @Post('/genre')
+    addGenre(@Body() dto: AddGenreDto){
+        return this.bookService.addGenre(dto)
     }
 }

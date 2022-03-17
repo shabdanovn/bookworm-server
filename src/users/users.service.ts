@@ -60,7 +60,7 @@ export class UsersService {
     }
 
     async banUser(dto: BanUserDto) {
-
+        return 'banned'
     }
 
 }

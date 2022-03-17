@@ -1,25 +1,41 @@
-import {Body, Delete, Get, Injectable, Param, Put} from '@nestjs/common';
+import {Body, Delete, Get, HttpException, HttpStatus, Injectable, Param, Put} from '@nestjs/common';
 import {CreateBookDto} from "./dto/create-book.dto";
 import {UpdateBookDto} from "./dto/update-book.dto";
 import {InjectModel} from "@nestjs/sequelize";
 import {Book} from "./books.model";
 import {FilesService} from "../files/files.service";
 import {Op} from "sequelize";
+import {GenresService} from "../genres/genres.service";
+import {AddRoleDto} from "../users/dto/add-role.dto";
+import {AddGenreDto} from "./dto/add-genre.dto";
 
 @Injectable()
 export class BooksService {
 
     constructor(@InjectModel(Book) private bookRepo: typeof Book,
-                private filesService: FilesService) {}
+                private filesService: FilesService,
+                private genreService: GenresService) {}
 
     async createBook(dto: CreateBookDto, image: any){
         const fileName = await this.filesService.createFile(image)
         const book = await this.bookRepo.create({...dto, img: fileName})
+        await book.$set('genres', [])
         return book
     }
 
+    async addGenre(dto: AddGenreDto) {
+        const book = await this.bookRepo.findByPk(dto.bookId)
+        const genre = await this.genreService.getGenreByName(dto.name)
+        if(genre && book) {
+            await book.$add('genre', genre.id)
+            return dto
+        }
+
+        throw new HttpException('Book or genre not found', HttpStatus.NOT_FOUND )
+    }
+
     async getOneBook(id: number){
-        return await this.bookRepo.findByPk(id)
+        return await this.bookRepo.findByPk(id, {include: {all: true}})
     }
 
     async getAllBooks(){
