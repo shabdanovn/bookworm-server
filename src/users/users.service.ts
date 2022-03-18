@@ -7,15 +7,18 @@ import {RolesService} from "../roles/roles.service";
 import {BanUserDto} from "./dto/ban-user.dto";
 import {AddRoleDto} from "./dto/add-role.dto";
 import {FilesService} from "../files/files.service";
+import {CitiesService} from "../cities/cities.service";
 
 @Injectable()
 export class UsersService {
     constructor(@InjectModel(User) private userRepo: typeof User,
                 private roleService: RolesService,
-                private filesService: FilesService) {}
+                private filesService: FilesService,
+                private citiesService: CitiesService) {}
 
     async createUser(dto: CreateUserDto) {
-        const user = await this.userRepo.create(dto)
+        const id = await this.citiesService.getIdByName(dto.cityName)
+        const user = await this.userRepo.create({...dto, cityId: id})
         const role = await this.roleService.getRoleByName('user')
         await user.$set('roles', [role.id])
         user.roles = [role]
