@@ -1,4 +1,4 @@
-import {Body, Delete, Get, HttpException, HttpStatus, Injectable, Param, Put} from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {CreateBookDto} from "./dto/create-book.dto";
 import {UpdateBookDto} from "./dto/update-book.dto";
 import {InjectModel} from "@nestjs/sequelize";
@@ -6,7 +6,6 @@ import {Book} from "./books.model";
 import {FilesService} from "../files/files.service";
 import {Op} from "sequelize";
 import {GenresService} from "../genres/genres.service";
-import {AddRoleDto} from "../users/dto/add-role.dto";
 import {AddGenreDto} from "./dto/add-genre.dto";
 
 @Injectable()
@@ -20,6 +19,7 @@ export class BooksService {
         const fileName = await this.filesService.createFile(image)
         const book = await this.bookRepo.create({...dto, img: fileName})
         await book.$set('genres', [])
+        await book.$set('comments', [])
         return book
     }
 

@@ -1,8 +1,9 @@
-import {BelongsTo, BelongsToMany, Column, DataType, ForeignKey, Model, Table} from "sequelize-typescript";
+import {BelongsTo, BelongsToMany, Column, DataType, ForeignKey, HasMany, Model, Table} from "sequelize-typescript";
 import {ApiProperty} from "@nestjs/swagger";
 import {User} from "../users/users.model";
 import {GenreBooks} from "../genres/genre-books.model";
 import {Genre} from "../genres/genres.model";
+import {Comment} from "../comments/comments.model";
 
 interface BookCreationAttrs{
     title: string
@@ -30,7 +31,7 @@ export class Book extends Model<Book, BookCreationAttrs>{
     author: string
 
     @ApiProperty({example: 'New book', description: 'Any notes of owner of a book'})
-    @Column({type:DataType.STRING, allowNull: true})
+    @Column({type: DataType.TEXT, allowNull: true})
     notes: string
 
     @ApiProperty({example: 'Image', description: 'Image of a book'})
@@ -59,4 +60,8 @@ export class Book extends Model<Book, BookCreationAttrs>{
 
     @BelongsToMany(()=> Genre, () => GenreBooks)
     genres: Genre[]
+
+    @HasMany(() => Comment)
+    comments: Comment[]
+
 }
