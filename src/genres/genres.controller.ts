@@ -1,9 +1,10 @@
-import {Body, Controller, Delete, Get, Param, Post, Put, UsePipes} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, UsePipes } from "@nestjs/common";
 import {ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {CreateGenreDto} from "./dto/create-genre.dto";
 import {GenresService} from "./genres.service";
 import {UpdateGenreDto} from "./dto/update-genre.dto";
 import {Genre} from "./genres.model";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 
 @ApiTags("Genres")
 @Controller('genres')
@@ -13,6 +14,7 @@ export class GenresController {
 
     @ApiOperation({summary: 'Create a new genre'})
     @ApiResponse({status: 201, type: Genre})
+    @UseGuards(JwtAuthGuard)
     @Post()
     createGenre(@Body() dto: CreateGenreDto){
         return this.genreService.createGenre(dto)
@@ -27,6 +29,7 @@ export class GenresController {
 
     @ApiOperation({summary: 'Delete a genre'})
     @ApiResponse({status: 201})
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     deleteGenre(@Param('id') id:string){
         return this.genreService.deleteGenre(+id)
@@ -34,6 +37,7 @@ export class GenresController {
 
     @ApiOperation({summary: 'Update a genre'})
     @ApiResponse({status: 201, type: Genre})
+    @UseGuards(JwtAuthGuard)
     @Put()
     updateGenre(@Body() dto: UpdateGenreDto){
         return this.genreService.updateGenre(dto)

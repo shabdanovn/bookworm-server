@@ -23,6 +23,7 @@ export class CommentsController {
     @ApiResponse({status:201, type: [Comment]})
     @Get(':parentCommentId')
     getAllComments(@Param('parentCommentId') id: string){
+        // return this.commentsService.getComment(+id)
         return this.commentsService.getAllComments(+id)
     }
 

@@ -14,7 +14,14 @@ export class AuthService {
 
     async login(dto: LoginUserDto){
         const user = await this.validateUser(dto)
-        return this.generateToken(user)
+        return {
+            ...await this.generateToken(user),
+            user: {
+                id: user.id,
+                img: user.img,
+                username: user.username
+            }
+        }
     }
 
     async register(dto: CreateUserDto){
@@ -23,7 +30,14 @@ export class AuthService {
             throw new HttpException('There is a user with this email', HttpStatus.BAD_REQUEST)
         const hashedPassword = await bcrypt.hash(dto.password, 7)
         const user = await this.usersService.createUser({...dto, password: hashedPassword})
-        return this.generateToken(user)
+        return {
+            ...await this.generateToken(user),
+            user: {
+                id: user.id,
+                img: user.img,
+                username: user.username
+            }
+        }
     }
 
     private async generateToken(user: User){

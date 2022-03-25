@@ -30,7 +30,7 @@ export class UsersService {
     }
 
     async getOneUser(id:number) {
-        return await this.userRepo.findOne({where: {id}})
+        return await this.userRepo.findOne({where: {id}, include:{all: true}})
     }
 
     async deleteUser(id: number) {

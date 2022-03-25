@@ -18,6 +18,10 @@ export class CitiesService {
         return await this.cityRepo.findAll()
     }
 
+    async getCity(id:number){
+        return await this.cityRepo.findByPk(id)
+    }
+
     async deleteCity(id:number){
         await this.cityRepo.destroy({where: {id}})
         return `city with id ${id} was deleted`

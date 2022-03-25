@@ -5,12 +5,14 @@ import {SequelizeModule} from "@nestjs/sequelize";
 import {Genre} from "./genres.model";
 import {Book} from "../books/books.model";
 import {GenreBooks} from "./genre-books.model";
+import { AuthModule } from "../auth/auth.module";
 
 @Module({
   providers: [GenresService],
   controllers: [GenresController],
   imports: [
-      SequelizeModule.forFeature([Genre, Book, GenreBooks])
+      SequelizeModule.forFeature([Genre, Book, GenreBooks]),
+      AuthModule
   ],
     exports:[
         GenresService

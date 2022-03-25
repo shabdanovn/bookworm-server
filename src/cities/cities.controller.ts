@@ -24,6 +24,13 @@ export class CitiesController {
         return this.citiesService.getAllCities()
     }
 
+    @ApiOperation({summary: 'Get one city'})
+    @ApiResponse({status: 200, type: City})
+    @Get(':id')
+    getCity(@Param('id') id:string){
+        return this.citiesService.getCity(+id)
+    }
+
     @ApiOperation({summary: 'Delete a city'})
     @ApiResponse({status: 201, type: "Deleted"})
     @Delete(':id')

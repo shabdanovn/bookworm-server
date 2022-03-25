@@ -7,6 +7,7 @@ import {FilesService} from "../files/files.service";
 import {Op} from "sequelize";
 import {GenresService} from "../genres/genres.service";
 import {AddGenreDto} from "./dto/add-genre.dto";
+import { Genre } from "../genres/genres.model";
 
 @Injectable()
 export class BooksService {
@@ -48,10 +49,21 @@ export class BooksService {
         word = string+word.substring(1)
         return await this.bookRepo.findAll({where:{
             [Op.or]: [
-                {title: {[Op.substring]: word}},
-                {author: {[Op.substring]: word}}
+                {title: {[Op.iLike]: `%${word}%`}},
+                {author: {[Op.iLike]: `%${word}%`}}
             ]
         }})
+    }
+
+    async getFilteredBooks(word:string){
+        const books = await this.bookRepo.findAll({include: {model: Genre}})
+        const newBooks = []
+        books.map(book => {
+            book.genres.map(genre=> {
+                if(genre.name.toLowerCase()===word.toLowerCase()) newBooks.push(book)
+            })
+        })
+        return newBooks
     }
 
     async deleteBook(id: number){

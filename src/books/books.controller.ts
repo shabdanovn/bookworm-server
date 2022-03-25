@@ -56,6 +56,13 @@ export class BooksController {
         return this.bookService.getSearchedBooks(word)
     }
 
+    @ApiOperation({summary: 'get filtered books by genre'})
+    @ApiResponse({status: 200, type: [Book]})
+    @Get('/search/genre/:genre')
+    getFilteredBooks(@Param('genre') word:string){
+        return this.bookService.getFilteredBooks(word)
+    }
+
     @ApiOperation({summary: 'delete a book post'})
     @ApiResponse({status: 200, type: Book})
     @UseGuards(JwtAuthGuard)
