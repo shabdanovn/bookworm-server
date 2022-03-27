@@ -8,6 +8,7 @@ import {Op} from "sequelize";
 import {GenresService} from "../genres/genres.service";
 import {AddGenreDto} from "./dto/add-genre.dto";
 import { Genre } from "../genres/genres.model";
+import { DeleteBookDto } from "./dto/delete-book.dto";
 
 @Injectable()
 export class BooksService {
@@ -17,6 +18,7 @@ export class BooksService {
                 private genreService: GenresService) {}
 
     async createBook(dto: CreateBookDto, image: any){
+        // console.log('dto:', dto, "aimg", image)
         const fileName = await this.filesService.createFile(image)
         const book = await this.bookRepo.create({...dto, img: fileName})
         await book.$set('genres', [])
@@ -43,6 +45,11 @@ export class BooksService {
         return await this.bookRepo.findAll()
     }
 
+    async getUsersBooks(id:number){
+        if(id) return await this.bookRepo.findAll({where: {userId: id}})
+        throw new HttpException('User id is not valid', HttpStatus.BAD_REQUEST)
+    }
+
     async getSearchedBooks(word:string){
         word = word.toLowerCase()
         let string = word.split('')[0].toUpperCase()
@@ -66,8 +73,17 @@ export class BooksService {
         return newBooks
     }
 
-    async deleteBook(id: number){
-        return await this.bookRepo.destroy({where: {id}})
+    async deleteBook(data: DeleteBookDto){
+        try{
+            return await this.bookRepo.destroy({where: {
+                    [Op.and]: [
+                        {id: data.id},
+                        {userId: data.userId}
+                    ]
+                }})
+        }catch (e) {
+            throw new HttpException("No user or book was found", HttpStatus.NOT_FOUND)
+        }
     }
 
     async updateBook(dto: UpdateBookDto){

@@ -18,6 +18,7 @@ import {FileInterceptor} from "@nestjs/platform-express";
 import {Book} from "./books.model";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {AddGenreDto} from "./dto/add-genre.dto";
+import { DeleteBookDto } from "./dto/delete-book.dto";
 
 @ApiTags('Books')
 @Controller('books')
@@ -40,6 +41,14 @@ export class BooksController {
     @Get(':id')
     getOneBook(@Param('id') id: string){
         return this.bookService.getOneBook(+id)
+    }
+
+    @ApiOperation({summary: 'Get user\'s books' })
+    @ApiResponse({status:201, type: [Book]})
+    @UseGuards(JwtAuthGuard)
+    @Get('/my/:userId')
+    getUsersBooks(@Param('userId') id: string){
+        return this.bookService.getUsersBooks(+id)
     }
 
     @ApiOperation({summary: 'get books'})
@@ -66,9 +75,10 @@ export class BooksController {
     @ApiOperation({summary: 'delete a book post'})
     @ApiResponse({status: 200, type: Book})
     @UseGuards(JwtAuthGuard)
-    @Delete(':id')
-    deleteBook(@Param('id') id: string){
-        return this.bookService.deleteBook(+id)
+    @Delete()
+    deleteBook(@Body() data: DeleteBookDto){
+        this.bookService.deleteBook(data)
+        return {message: "Book was deleted"}
     }
 
     @ApiOperation({summary: 'update a book post'})
@@ -96,4 +106,6 @@ export class BooksController {
     addGenre(@Body() dto: AddGenreDto){
         return this.bookService.addGenre(dto)
     }
+
+
 }

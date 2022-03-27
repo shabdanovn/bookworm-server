@@ -9,7 +9,7 @@ interface BookCreationAttrs{
     title: string
     author: string
     notes: string
-    img: string
+    img: FileList|string
     cost: string
     conditions: string
     state: string
