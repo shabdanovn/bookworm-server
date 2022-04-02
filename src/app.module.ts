@@ -19,6 +19,8 @@ import { CitiesModule } from './cities/cities.module';
 import {City} from "./cities/cities.model";
 import { CommentsModule } from './comments/comments.module';
 import {Comment} from "./comments/comments.model";
+import { SavedBooksModule } from './saved-books/saved-books.module';
+import { SavedBooks } from "./saved-books/saved-books.model";
 
 @Module({
     controllers:[],
@@ -36,7 +38,8 @@ import {Comment} from "./comments/comments.model";
             username: process.env.POSTGRES_USERNAME,
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DB,
-            models: [User, Role, UserRoles, Book, Genre, GenreBooks, City, Comment],
+            models: [User, Role, UserRoles, Book,
+                Genre, GenreBooks, City, Comment, SavedBooks],
             autoLoadModels: true
         }),
         UsersModule,
@@ -47,6 +50,7 @@ import {Comment} from "./comments/comments.model";
         GenresModule,
         CitiesModule,
         CommentsModule,
+        SavedBooksModule,
     ]
 })
 export class AppModule {}

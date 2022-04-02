@@ -9,16 +9,17 @@ import {GenresService} from "../genres/genres.service";
 import {AddGenreDto} from "./dto/add-genre.dto";
 import { Genre } from "../genres/genres.model";
 import { DeleteBookDto } from "./dto/delete-book.dto";
+import { CitiesService } from "../cities/cities.service";
 
 @Injectable()
 export class BooksService {
 
     constructor(@InjectModel(Book) private bookRepo: typeof Book,
                 private filesService: FilesService,
-                private genreService: GenresService) {}
+                private genreService: GenresService,
+                private cityService: CitiesService) {}
 
     async createBook(dto: CreateBookDto, image: any){
-        // console.log('dto:', dto, "aimg", image)
         const fileName = await this.filesService.createFile(image)
         const book = await this.bookRepo.create({...dto, img: fileName})
         await book.$set('genres', [])
@@ -38,11 +39,22 @@ export class BooksService {
     }
 
     async getOneBook(id: number){
-        return await this.bookRepo.findByPk(id, {include: {all: true}})
+        const book = await this.bookRepo.findByPk(id, {include: {all: true}})
+        const city = await this.cityService.getCity(book.user.cityId)
+        return {book, city}
     }
 
     async getAllBooks(){
         return await this.bookRepo.findAll()
+    }
+
+
+    async getSavedBooks(data: number[]){
+        return await this.bookRepo.findAll({where: {
+                id: {
+                    [Op.in]: data
+                }
+        }})
     }
 
     async getUsersBooks(id:number){

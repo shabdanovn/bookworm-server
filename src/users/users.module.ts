@@ -10,12 +10,14 @@ import {AuthModule} from "../auth/auth.module";
 import {Book} from "../books/books.model";
 import {FilesModule} from "../files/files.module";
 import {CitiesModule} from "../cities/cities.module";
+import { SavedBooksModule } from "../saved-books/saved-books.module";
+import { SavedBooks } from "../saved-books/saved-books.model";
 
 @Module({
   controllers: [UsersController],
   providers: [UsersService],
   imports: [
-      SequelizeModule.forFeature([User, Role, UserRoles, Book]),
+      SequelizeModule.forFeature([User, Role, UserRoles, Book, SavedBooks]),
       RolesModule,
       forwardRef(() => AuthModule),
       FilesModule,

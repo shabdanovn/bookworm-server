@@ -4,6 +4,7 @@ import {Role} from "../roles/roles.model";
 import {UserRoles} from "../roles/user-roles.model";
 import {Book} from "../books/books.model";
 import {City} from "../cities/cities.model";
+import { SavedBooks } from "../saved-books/saved-books.model";
 
 interface UserCreateAttrs{
     email: string
@@ -66,4 +67,7 @@ export class User extends Model<User, UserCreateAttrs>{
 
     @HasMany(() => Book)
     books: Book[]
+
+    @HasMany(() => SavedBooks)
+    savedBooks: SavedBooks[]
 }

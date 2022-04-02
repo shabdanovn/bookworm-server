@@ -9,6 +9,7 @@ import {Genre} from "../genres/genres.model";
 import {GenreBooks} from "../genres/genre-books.model";
 import {GenresModule} from "../genres/genres.module";
 import {AuthModule} from "../auth/auth.module";
+import { CitiesModule } from "../cities/cities.module";
 
 @Module({
   controllers: [BooksController],
@@ -17,7 +18,11 @@ import {AuthModule} from "../auth/auth.module";
       SequelizeModule.forFeature([Book, User, Genre, GenreBooks]),
       FilesModule,
       GenresModule,
-      AuthModule
+      AuthModule,
+      CitiesModule
+  ],
+  exports: [
+    BooksService
   ]
 })
 export class BooksModule {}

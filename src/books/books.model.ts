@@ -63,5 +63,4 @@ export class Book extends Model<Book, BookCreationAttrs>{
 
     @HasMany(() => Comment)
     comments: Comment[]
-
 }
