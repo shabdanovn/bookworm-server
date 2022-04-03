@@ -39,12 +39,14 @@ export class UsersService {
     }
 
     async updateUser(dto: UpdateUserDto){
-        return await this.userRepo.update(dto, {where: {id:dto.id}})
+        const id = await this.citiesService.getIdByName(dto.cityName)
+        return await this.userRepo.update({...dto, cityId: id}, {where: {id:dto.id}})
     }
 
     async updateUserWithImage(dto: UpdateUserDto, img:any){
         let filename = await this.filesService.createFile(img)
-        return await this.userRepo.update({...dto, img: filename}, {where: {id:dto.id}})
+        const id = await this.citiesService.getIdByName(dto.cityName)
+        return await this.userRepo.update({...dto, img: filename, cityId: id}, {where: {id:dto.id}})
     }
 
     async getUserByEmail(email: string){
