@@ -5,6 +5,9 @@ import {UserRoles} from "../roles/user-roles.model";
 import {Book} from "../books/books.model";
 import {City} from "../cities/cities.model";
 import { SavedBooks } from "../saved-books/saved-books.model";
+import { Messages } from "../messages/messages.model";
+import { Conversations } from "../conversations/conversations.model";
+import { UserConversations } from "../conversations/user-conversations.model";
 
 interface UserCreateAttrs{
     email: string
@@ -70,4 +73,10 @@ export class User extends Model<User, UserCreateAttrs>{
 
     @HasMany(() => SavedBooks)
     savedBooks: SavedBooks[]
+
+    @HasMany(() => Messages)
+    messages: Messages[]
+
+    @BelongsToMany(() => Conversations, () => UserConversations)
+    conversation: Conversations
 }

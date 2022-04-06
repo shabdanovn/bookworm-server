@@ -21,6 +21,11 @@ import { CommentsModule } from './comments/comments.module';
 import {Comment} from "./comments/comments.model";
 import { SavedBooksModule } from './saved-books/saved-books.module';
 import { SavedBooks } from "./saved-books/saved-books.model";
+import { ConversationsModule } from './conversations/conversations.module';
+import { MessagesModule } from './messages/messages.module';
+import { Conversations } from "./conversations/conversations.model";
+import { Messages } from "./messages/messages.model";
+import { UserConversations } from "./conversations/user-conversations.model";
 
 @Module({
     controllers:[],
@@ -39,7 +44,8 @@ import { SavedBooks } from "./saved-books/saved-books.model";
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DB,
             models: [User, Role, UserRoles, Book,
-                Genre, GenreBooks, City, Comment, SavedBooks],
+                Genre, GenreBooks, City, Comment,
+                SavedBooks, Conversations, Messages, UserConversations],
             autoLoadModels: true
         }),
         UsersModule,
@@ -51,6 +57,8 @@ import { SavedBooks } from "./saved-books/saved-books.model";
         CitiesModule,
         CommentsModule,
         SavedBooksModule,
+        ConversationsModule,
+        MessagesModule,
     ]
 })
 export class AppModule {}
