@@ -8,6 +8,7 @@ import { SavedBooks } from "../saved-books/saved-books.model";
 import { Messages } from "../messages/messages.model";
 import { Conversations } from "../conversations/conversations.model";
 import { UserConversations } from "../conversations/user-conversations.model";
+import { PostModel } from "../posts/posts.model";
 
 interface UserCreateAttrs{
     email: string
@@ -70,6 +71,9 @@ export class User extends Model<User, UserCreateAttrs>{
 
     @HasMany(() => Book)
     books: Book[]
+
+    @HasMany(() => PostModel)
+    posts: PostModel[]
 
     @HasMany(() => SavedBooks)
     savedBooks: SavedBooks[]

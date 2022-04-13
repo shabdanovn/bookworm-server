@@ -1,7 +1,9 @@
 import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { ConversationsService } from "./conversations.service";
 import { CreateConversationDto } from "./dto/create-conversation.dto";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags('Conversations')
 @Controller('conversations')
 export class ConversationsController {
 

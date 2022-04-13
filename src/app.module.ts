@@ -26,6 +26,18 @@ import { MessagesModule } from './messages/messages.module';
 import { Conversations } from "./conversations/conversations.model";
 import { Messages } from "./messages/messages.model";
 import { UserConversations } from "./conversations/user-conversations.model";
+import { PostsModule } from './posts/posts.module';
+import { PostCommentsModule } from "./post_comments/post-comments.module";
+import { PostModel } from "./posts/posts.model";
+import { PostComment } from "./post_comments/post-comments.model";
+import { SavedPosts } from "./saved-posts/saved-posts.model";
+import { SavedPostsModule } from "./saved-posts/saved-posts.module";
+import { ChallengesModule } from './challenges/challenges.module';
+import { ChallengeCommentsModule } from "./challenge_comments/challenge-comments.module";
+import { Challenge } from "./challenges/challenges.model";
+import { ChallengeComment } from "./challenge_comments/challenge-comments.model";
+import { ChallengesUsersModule } from './challenges-users/challenges-users.module';
+import { ChallengesUsers } from "./challenges-users/challenges-users.model";
 
 @Module({
     controllers:[],
@@ -45,6 +57,8 @@ import { UserConversations } from "./conversations/user-conversations.model";
             database: process.env.POSTGRES_DB,
             models: [User, Role, UserRoles, Book,
                 Genre, GenreBooks, City, Comment,
+                PostComment, PostModel, SavedPosts,
+                Challenge, ChallengeComment, ChallengesUsers,
                 SavedBooks, Conversations, Messages, UserConversations],
             autoLoadModels: true
         }),
@@ -59,6 +73,12 @@ import { UserConversations } from "./conversations/user-conversations.model";
         SavedBooksModule,
         ConversationsModule,
         MessagesModule,
+        PostsModule,
+        PostCommentsModule,
+        SavedPostsModule,
+        ChallengesModule,
+        ChallengeCommentsModule,
+        ChallengesUsersModule
     ]
 })
 export class AppModule {}
