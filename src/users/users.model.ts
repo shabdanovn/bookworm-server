@@ -9,6 +9,9 @@ import { Messages } from "../messages/messages.model";
 import { Conversations } from "../conversations/conversations.model";
 import { UserConversations } from "../conversations/user-conversations.model";
 import { PostModel } from "../posts/posts.model";
+import { ReadingBook } from "../reading-books/reading-books.model";
+import { FollowersModel } from "../followers/followers.model";
+import { FollowingsModel } from "../followings/followings.model";
 
 interface UserCreateAttrs{
     email: string
@@ -81,6 +84,17 @@ export class User extends Model<User, UserCreateAttrs>{
     @HasMany(() => Messages)
     messages: Messages[]
 
+    @HasMany(() => ReadingBook)
+    readingBooks: ReadingBook[]
+
+    @HasMany(() => FollowersModel)
+    followers: FollowersModel[]
+
+    @HasMany(() => FollowingsModel)
+    followings: FollowingsModel[]
+
     @BelongsToMany(() => Conversations, () => UserConversations)
     conversation: Conversations
+
+
 }

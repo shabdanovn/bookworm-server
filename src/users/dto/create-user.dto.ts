@@ -24,7 +24,6 @@ export class CreateUserDto{
     @IsNumber({}, {message: "City Id should be a number"})
     cityId: number
 
-
     @ApiProperty({example: 'Bishkek', description: 'City of a user'})
     // @IsNumber({}, {message: "City Id should be a number"})
     cityName: string

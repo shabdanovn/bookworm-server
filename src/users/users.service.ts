@@ -1,4 +1,4 @@
-import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import {InjectModel} from "@nestjs/sequelize";
 import {User} from "./users.model";
 import {CreateUserDto} from "./dto/create-user.dto";
@@ -8,6 +8,7 @@ import {BanUserDto} from "./dto/ban-user.dto";
 import {AddRoleDto} from "./dto/add-role.dto";
 import {FilesService} from "../files/files.service";
 import {CitiesService} from "../cities/cities.service";
+import { Op } from "sequelize";
 
 @Injectable()
 export class UsersService {
@@ -66,6 +67,14 @@ export class UsersService {
 
     async banUser(dto: BanUserDto) {
         return 'banned'
+    }
+
+    async getUsersByIds(ids:number[]){
+        return await this.userRepo.findAll({where: {
+                id:{
+                    [Op.in]: ids
+                }
+            }})
     }
 
 }

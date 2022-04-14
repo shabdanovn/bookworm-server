@@ -10,17 +10,20 @@ import {AuthModule} from "../auth/auth.module";
 import {Book} from "../books/books.model";
 import {FilesModule} from "../files/files.module";
 import {CitiesModule} from "../cities/cities.module";
-import { SavedBooksModule } from "../saved-books/saved-books.module";
 import { SavedBooks } from "../saved-books/saved-books.model";
 import { Conversations } from "../conversations/conversations.model";
 import { Messages } from "../messages/messages.model";
 import { UserConversations } from "../conversations/user-conversations.model";
+import { ReadingBook } from "../reading-books/reading-books.model";
+import { FollowersModel } from "../followers/followers.model";
+import { FollowingsModel } from "../followings/followings.model";
 
 @Module({
   controllers: [UsersController],
   providers: [UsersService],
   imports: [
-      SequelizeModule.forFeature([User, Role, UserRoles, Book, SavedBooks, Conversations, Messages, UserConversations]),
+      SequelizeModule.forFeature([User, Role, UserRoles, Book, SavedBooks,
+        Conversations, Messages, UserConversations, ReadingBook, FollowersModel, FollowingsModel]),
       RolesModule,
       forwardRef(() => AuthModule),
       FilesModule,

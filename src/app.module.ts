@@ -38,6 +38,12 @@ import { Challenge } from "./challenges/challenges.model";
 import { ChallengeComment } from "./challenge_comments/challenge-comments.model";
 import { ChallengesUsersModule } from './challenges-users/challenges-users.module';
 import { ChallengesUsers } from "./challenges-users/challenges-users.model";
+import { ReadingBooksModule } from './reading-books/reading-books.module';
+import { ReadingBook } from "./reading-books/reading-books.model";
+import { FollowersModule } from './followers/followers.module';
+import { FollowingsModule } from './followings/followings.module';
+import { FollowersModel } from "./followers/followers.model";
+import { FollowingsModel } from "./followings/followings.model";
 
 @Module({
     controllers:[],
@@ -59,6 +65,7 @@ import { ChallengesUsers } from "./challenges-users/challenges-users.model";
                 Genre, GenreBooks, City, Comment,
                 PostComment, PostModel, SavedPosts,
                 Challenge, ChallengeComment, ChallengesUsers,
+                ReadingBook, FollowersModel, FollowingsModel,
                 SavedBooks, Conversations, Messages, UserConversations],
             autoLoadModels: true
         }),
@@ -78,7 +85,10 @@ import { ChallengesUsers } from "./challenges-users/challenges-users.model";
         SavedPostsModule,
         ChallengesModule,
         ChallengeCommentsModule,
-        ChallengesUsersModule
+        ChallengesUsersModule,
+        ReadingBooksModule,
+        FollowersModule,
+        FollowingsModule
     ]
 })
 export class AppModule {}

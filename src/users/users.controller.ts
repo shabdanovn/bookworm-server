@@ -91,4 +91,36 @@ export class UsersController {
     banUser(@Body() dto: BanUserDto){
         return this.userService.banUser(dto)
     }
+
+    // @ApiOperation({summary: 'Follow a user'})
+    // @ApiResponse({status: 200})
+    // @UseGuards(JwtAuthGuard)
+    // @Put('/follow')
+    // followUser(@Body() dto: FollowUserDto){
+    //     return this.userService.followUser(dto)
+    // }
+    //
+    // @ApiOperation({summary: 'Unfollow a user'})
+    // @ApiResponse({status: 200})
+    // @UseGuards(JwtAuthGuard)
+    // @Put('/unfollow')
+    // unfollowUser(@Body() dto: FollowUserDto){
+    //     return this.userService.unfollowUser(dto)
+    // }
+
+    // @ApiOperation({summary: 'get followers of a user'})
+    // @ApiResponse({status: 200, type: [User]})
+    // @UseGuards(JwtAuthGuard)
+    // @Get('/followers/:userId')
+    // getFollowers(@Param('userId') id: string){
+    //     return this.userService.getFollowers(+id)
+    // }
+    //
+    // @ApiOperation({summary: 'get followings of a user'})
+    // @ApiResponse({status: 200, type: [User]})
+    // @UseGuards(JwtAuthGuard)
+    // @Get('/followings/:userId')
+    // getFollowings(@Param('userId') id: string){
+    //     return this.userService.getFollowings(+id)
+    // }
 }

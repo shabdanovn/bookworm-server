@@ -30,6 +30,5 @@ export class CreateBookDto{
     readonly state: string
 
     @ApiProperty({example: '1', description: 'Owner of book'})
-    @IsString({message: "userId should be a string"})
     readonly userId: number
 }
