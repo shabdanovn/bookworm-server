@@ -39,8 +39,8 @@ export class ChallengesUsersController {
   @ApiOperation({summary: 'removing user from challenge'})
   @ApiResponse({status: 200, type: ''})
   @UseGuards(JwtAuthGuard)
-  @Delete(':id')
-  removeUserChallenge(@Param('id') id: string){
-    return this.challengesUsersService.removeUserChallenge(+id)
+  @Delete()
+  removeUserChallenge(@Body() data: CreateChallengesUsersDto){
+    return this.challengesUsersService.removeUserChallenge(data)
   }
 }

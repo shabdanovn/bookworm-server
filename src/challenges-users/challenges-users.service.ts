@@ -27,7 +27,10 @@ export class ChallengesUsersService {
     return usersInChallenge
   }
 
-  async removeUserChallenge(id: number){
-    return await this.challUserRepo.destroy({where: {id}})
+  async removeUserChallenge(dto: CreateChallengesUsersDto){
+    return await this.challUserRepo.destroy({where: {
+        userId: dto.userId,
+        challengeId: dto.challengeId
+      }})
   }
 }

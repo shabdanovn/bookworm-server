@@ -28,11 +28,11 @@ export class ChallengeComment extends Model<ChallengeComment, ChallengeCommentCr
     authorId:number
 
     @ApiProperty({example: 'John', description: 'Author of a comment'})
-    @Column({type: DataType.DATE})
+    @Column({type: DataType.STRING})
     author:string
 
     @ApiProperty({example: 'link', description: 'Author avatar of a comment'})
-    @Column({type: DataType.DATE})
+    @Column({type: DataType.STRING})
     authorImg:string
 
     @ApiProperty({example: '1', description: 'Challenge of a comment'})
