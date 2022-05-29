@@ -29,6 +29,10 @@ export class CreateBookDto{
     @IsString({message: "state should be a string"})
     readonly state: string
 
+    @ApiProperty({example: 'English', description: 'Language of book'})
+    @IsString({message: "language should be a string"})
+    readonly language: string
+
     @ApiProperty({example: '1', description: 'Owner of book'})
     readonly userId: number
 }

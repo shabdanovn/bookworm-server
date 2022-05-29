@@ -22,6 +22,9 @@ export class UpdateBookDto{
     @ApiProperty({example: 'Free', description: 'Conditions of book'})
     readonly conditions: string
 
+    @ApiProperty({example: 'English', description: 'Conditions of book'})
+    readonly language: string
+
     @ApiProperty({example: '8', description: 'State of book'})
     readonly state: string
 

@@ -12,6 +12,7 @@ interface BookCreationAttrs{
     img: FileList|string
     cost: string
     conditions: string
+    language: string
     state: string
     userId: number
 }
@@ -45,6 +46,10 @@ export class Book extends Model<Book, BookCreationAttrs>{
     @ApiProperty({example: 'Bookcrossing', description: 'Other conditions of a book'})
     @Column({type:DataType.STRING, allowNull: true})
     conditions: string
+
+    @ApiProperty({example: 'English', description: 'Language of a book'})
+    @Column({type:DataType.STRING})
+    language: string
 
     @ApiProperty({example: '8', description: 'State of a book'})
     @Column({type:DataType.STRING, allowNull: false})
